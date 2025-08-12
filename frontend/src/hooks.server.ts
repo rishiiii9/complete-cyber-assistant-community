@@ -7,29 +7,6 @@ import { setFlash } from 'sveltekit-flash-message/server';
 import { loadFeatureFlags } from '$lib/feature-flags';
 import { paraglideMiddleware } from '$paraglide/server';
 
-// Development mode check
-const isDevelopment = process.env.NODE_ENV === 'development' || process.env.BYPASS_AUTH === 'true';
-
-// Mock user for development
-const getMockUser = (): User => ({
-	id: '1',
-	email: 'dev@localhost',
-	first_name: 'Development',
-	last_name: 'User',
-	is_active: true,
-	keep_local_login: true,
-	date_joined: new Date().toISOString(),
-	user_groups: [],
-	roles: [],
-	permissions: [],
-	is_third_party: false,
-	is_admin: true,
-	accessible_domains: [],
-	domain_permissions: {},
-	root_folder_id: '1',
-	preferences: {}
-});
-
 async function ensureCsrfToken(event: RequestEvent): Promise<string> {
 	let csrfToken = event.cookies.get('csrftoken') || '';
 	if (!csrfToken) {
@@ -87,31 +64,6 @@ export const handle: Handle = async ({ event, resolve }) =>
 		event.locals.featureFlags = loadFeatureFlags();
 
 		await ensureCsrfToken(event);
-
-		// Development mode: bypass authentication
-		if (isDevelopment) {
-			event.locals.user = getMockUser();
-			event.locals.globalSettings = {
-				name: 'general',
-				settings: {
-					security_objective_scale: '1-4',
-					ebios_radar_max: 6,
-					ebios_radar_green_zone_radius: 0.2,
-					ebios_radar_yellow_zone_radius: 0.9,
-					ebios_radar_red_zone_radius: 2.5,
-					notifications_enable_mailing: false,
-					interface_agg_scenario_matrix: false,
-					risk_matrix_swap_axes: false,
-					risk_matrix_flip_vertical: false,
-					risk_matrix_labels: 'ISO'
-				}
-			};
-			return await resolve(event, {
-				transformPageChunk: ({ html }) => {
-					return html.replace('%lang%', locale);
-				}
-			});
-		}
 
 		if (event.locals.user)
 			return await resolve(event, {

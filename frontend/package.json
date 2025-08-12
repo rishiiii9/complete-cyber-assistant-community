@@ -5,7 +5,6 @@
 	"scripts": {
 		"prepare": "svelte-kit sync",
 		"dev": "vite dev",
-		"dev:bypass": "BYPASS_AUTH=true vite dev",
 		"build": "paraglide-js compile --project ./project.inlang && vite build",
 		"preview": "vite preview",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
