@@ -25,7 +25,7 @@
 	<div class="col-span-5 p-2 flex items-center justify-center">
 		<ActivityTracker metrics={data.data.metrics} />
 	</div>
-	<div class="col-span-6 bg-linear-to-br from-violet-200 to-violet-50 p-2 rounded">
+	<div class="col-span-6 bg-linear-to-br from-teal-200 to-violet-50 p-2 rounded">
 		<div class="font-bold mb-2">
 			<i class="fa-solid fa-note-sticky mr-2" />{m.tasks()}
 		</div>
@@ -61,7 +61,7 @@
 			baseEndpoint="/risk-assessments?authors={data.user.id}"
 		/>
 	</div>
-	<div class="col-span-6 bg-linear-to-br from-violet-200 to-violet-50 p-2 rounded">
+	<div class="col-span-6 bg-linear-to-br from-teal-200 to-violet-50 p-2 rounded">
 		<div class="font-bold mb-2">
 			<i class="fa-solid fa-clone mr-2" />{m.riskScenarios()}
 		</div>
@@ -75,7 +75,7 @@
 			baseEndpoint="/risk-scenarios?owner={data.user.id}"
 		/>
 	</div>
-	<div class="col-span-6 bg-linear-to-br from-violet-200 to-violet-50 p-2 rounded">
+	<div class="col-span-6 bg-linear-to-br from-teal-200 to-violet-50 p-2 rounded">
 		<div class="font-bold mb-2">
 			<i class="fa-solid fa-bug mr-2" />{m.incidents()}
 		</div>
@@ -114,7 +114,7 @@
 			baseEndpoint="/findings-assessments?authors={data.user.id}"
 		/>
 	</div>
-	<div class="col-span-6 bg-linear-to-br from-violet-200 to-violet-50 p-2 rounded">
+	<div class="col-span-6 bg-linear-to-br from-teal-200 to-violet-50 p-2 rounded">
 		<div class="font-bold mb-2">
 			<i class="fa-solid fa-triangle-exclamation mr-2" />{m.findings()}
 		</div>

@@ -479,7 +479,7 @@ SOCIALACCOUNT_PROVIDERS = {
 
 if MAIL_DEBUG:
     EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
-    DEFAULT_FROM_EMAIL = "noreply@ciso.assistant"
+    DEFAULT_FROM_EMAIL = "noreply@completecyber.assistant"
 
 
 ## Huey settings

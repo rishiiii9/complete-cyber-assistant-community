@@ -1,0 +1,338 @@
+/* Complete Cyber Assistant - Enterprise Brand Colors */
+/* Primary Brand Color: #3FECAC (Teal) */
+/* Secondary Brand Color: #081C2D (Navy) */
+
+/* Brand Color Variables - Direct Hex Values */
+:root {
+  --brand-teal: #3FECAC;
+  --brand-navy: #081C2D;
+  
+  /* Brand Color Variations */
+  --brand-teal-light: #6FEFC0;
+  --brand-teal-lighter: #9FF2D4;
+  --brand-teal-dark: #2BCA8A;
+  --brand-teal-darker: #1A8F6B;
+  
+  --brand-navy-light: #0F2A3F;
+  --brand-navy-lighter: #163851;
+  --brand-navy-dark: #05141F;
+  --brand-navy-darker: #020A0F;
+  
+  /* Accent Colors */
+  --color-accent: #00D4FF;
+  --color-accent-light: #4DDFFF;
+  --color-accent-dark: #0099CC;
+  
+  /* Neutral Colors */
+  --color-neutral-50: #FAFBFC;
+  --color-neutral-100: #F4F6F8;
+  --color-neutral-200: #E9ECEF;
+  --color-neutral-300: #DDE1E6;
+  --color-neutral-400: #C1C7CD;
+  --color-neutral-500: #88939E;
+  --color-neutral-600: #5A6876;
+  --color-neutral-700: #3E4A57;
+  --color-neutral-800: #2C3744;
+  --color-neutral-900: #1A202C;
+  
+  /* Status Colors */
+  --color-success: #10B981;
+  --color-success-light: #34D399;
+  --color-success-dark: #059669;
+  
+  --color-warning: #F59E0B;
+  --color-warning-light: #FBBF24;
+  --color-warning-dark: #D97706;
+  
+  --color-error: #EF4444;
+  --color-error-light: #F87171;
+  --color-error-dark: #DC2626;
+  
+  --color-info: #3B82F6;
+  --color-info-light: #60A5FA;
+  --color-info-dark: #2563EB;
+}
+
+/* Brand Color Utility Classes - Using CSS Custom Properties */
+.bg-brand-teal { background-color: var(--brand-teal); }
+.bg-brand-navy { background-color: var(--brand-navy); }
+.bg-brand-teal-light { background-color: var(--brand-teal-light); }
+.bg-brand-navy-light { background-color: var(--brand-navy-light); }
+
+.text-brand-teal { color: var(--brand-teal); }
+.text-brand-navy { color: var(--brand-navy); }
+.text-brand-teal-light { color: var(--brand-teal-light); }
+.text-brand-navy-light { color: var(--brand-navy-light); }
+
+.border-brand-teal { border-color: var(--brand-teal); }
+.border-brand-navy { border-color: var(--brand-navy); }
+.border-brand-teal-light { border-color: var(--brand-teal-light); }
+.border-brand-navy-light { border-color: var(--brand-navy-light); }
+
+/* Enterprise Button Styles */
+.btn-brand-primary {
+  background-color: var(--brand-teal);
+  color: var(--brand-navy);
+  border: 2px solid var(--brand-teal);
+  transition: all 0.3s ease;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-brand-primary:hover {
+  background-color: var(--brand-teal-light);
+  border-color: var(--brand-teal-light);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(63, 236, 172, 0.3);
+}
+
+.btn-brand-secondary {
+  background-color: var(--brand-navy);
+  color: var(--brand-teal);
+  border: 2px solid var(--brand-navy);
+  transition: all 0.3s ease;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-brand-secondary:hover {
+  background-color: var(--brand-navy-light);
+  border-color: var(--brand-navy-light);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(8, 28, 45, 0.3);
+}
+
+.btn-brand-outline {
+  background-color: transparent;
+  color: var(--brand-teal);
+  border: 2px solid var(--brand-teal);
+  transition: all 0.3s ease;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-brand-outline:hover {
+  background-color: var(--brand-teal);
+  color: var(--brand-navy);
+  transform: translateY(-2px);
+}
+
+/* Enterprise Card Styles */
+.card-brand {
+  background: linear-gradient(135deg, var(--brand-navy) 0%, var(--brand-navy-light) 100%);
+  border: 1px solid var(--brand-teal);
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(8, 28, 45, 0.1);
+  transition: all 0.3s ease;
+  padding: 24px;
+}
+
+.card-brand:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 30px rgba(8, 28, 45, 0.2);
+  border-color: var(--brand-teal-light);
+}
+
+/* Enterprise Form Styles */
+.input-brand {
+  border: 2px solid var(--brand-navy-light);
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  padding: 12px 16px;
+  background-color: white;
+  color: var(--brand-navy);
+}
+
+.input-brand:focus {
+  border-color: var(--brand-teal);
+  box-shadow: 0 0 0 3px rgba(63, 236, 172, 0.1);
+  outline: none;
+}
+
+/* Enterprise Navigation Styles */
+.nav-brand {
+  background: linear-gradient(90deg, var(--brand-navy) 0%, var(--brand-navy-light) 100%);
+  border-bottom: 3px solid var(--brand-teal);
+  padding: 16px 24px;
+}
+
+.nav-brand .nav-link {
+  color: var(--brand-teal);
+  transition: all 0.3s ease;
+  padding: 8px 16px;
+  border-radius: 6px;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.nav-brand .nav-link:hover {
+  color: var(--brand-teal-light);
+  background-color: rgba(63, 236, 172, 0.1);
+}
+
+/* Enterprise Typography */
+.heading-brand {
+  color: var(--brand-navy);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+}
+
+.heading-brand-light {
+  color: var(--brand-teal);
+  font-weight: 600;
+}
+
+.text-brand-muted {
+  color: var(--brand-navy-light);
+}
+
+/* Enterprise Status Indicators */
+.status-success {
+  background-color: var(--color-success);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-weight: 500;
+}
+
+.status-warning {
+  background-color: var(--color-warning);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-weight: 500;
+}
+
+.status-error {
+  background-color: var(--color-error);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-weight: 500;
+}
+
+.status-info {
+  background-color: var(--color-info);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-weight: 500;
+}
+
+/* Enterprise Shadows */
+.shadow-brand {
+  box-shadow: 0 4px 20px rgba(8, 28, 45, 0.1);
+}
+
+.shadow-brand-lg {
+  box-shadow: 0 8px 30px rgba(8, 28, 45, 0.15);
+}
+
+.shadow-brand-xl {
+  box-shadow: 0 12px 40px rgba(8, 28, 45, 0.2);
+}
+
+/* Enterprise Gradients */
+.gradient-brand-primary {
+  background: linear-gradient(135deg, var(--brand-teal) 0%, var(--brand-teal-light) 100%);
+}
+
+.gradient-brand-secondary {
+  background: linear-gradient(135deg, var(--brand-navy) 0%, var(--brand-navy-light) 100%);
+}
+
+.gradient-brand-diagonal {
+  background: linear-gradient(135deg, var(--brand-teal) 0%, var(--brand-navy) 100%);
+}
+
+/* Enterprise Focus States */
+.focus-brand:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(63, 236, 172, 0.3);
+}
+
+.focus-brand-secondary:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(8, 28, 45, 0.3);
+}
+
+/* Enterprise Transitions */
+.transition-brand {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.transition-brand-fast {
+  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.transition-brand-slow {
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Enterprise Hover Effects */
+.hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 30px rgba(8, 28, 45, 0.2);
+}
+
+.hover-glow:hover {
+  box-shadow: 0 0 20px rgba(63, 236, 172, 0.4);
+}
+
+.hover-scale:hover {
+  transform: scale(1.05);
+}
+
+/* Enterprise Responsive Utilities */
+@media (max-width: 768px) {
+  .btn-brand-primary,
+  .btn-brand-secondary {
+    padding: 12px 24px;
+    font-size: 14px;
+  }
+  
+  .card-brand {
+    border-radius: 8px;
+    padding: 16px;
+  }
+}
+
+/* Enterprise Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-neutral-50: #1A202C;
+    --color-neutral-100: #2C3744;
+    --color-neutral-200: #3E4A57;
+    --color-neutral-300: #5A6876;
+    --color-neutral-400: #88939E;
+    --color-neutral-500: #C1C7CD;
+    --color-neutral-600: #DDE1E6;
+    --color-neutral-700: #E9ECEF;
+    --color-neutral-800: #F4F6F8;
+    --color-neutral-900: #FAFBFC;
+  }
+  
+  .card-brand {
+    background: linear-gradient(135deg, var(--brand-navy-dark) 0%, var(--brand-navy) 100%);
+  }
+  
+  .heading-brand {
+    color: var(--brand-teal);
+  }
+  
+  .heading-brand-light {
+    color: var(--brand-teal-light);
+  }
+  
+  .input-brand {
+    background-color: var(--brand-navy-light);
+    color: var(--brand-teal);
+    border-color: var(--brand-teal);
+  }
+}

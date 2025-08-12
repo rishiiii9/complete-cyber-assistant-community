@@ -369,7 +369,7 @@ msgid "user groups"
 msgstr ""
 
 #: iam/models.py:299
-msgid "Welcome to Ciso Assistant!"
+msgid "Welcome to Complete Cyber Assistant!"
 msgstr "Bienvenue sur CISO Assistant !"
 
 #: iam/models.py:346

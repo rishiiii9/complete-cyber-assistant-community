@@ -1,0 +1,42 @@
+# Simple Docker Compose for Backend Only (No Code Mounting)
+# This avoids the health check issues while keeping authentication bypass
+
+services:
+  backend:
+    container_name: backend
+    image: ghcr.io/intuitem/ciso-assistant-community/backend:latest
+    pull_policy: always
+    restart: always
+    environment:
+      - ALLOWED_HOSTS=backend,localhost,127.0.0.1,host.docker.internal
+      - CISO_ASSISTANT_URL=http://localhost:5173
+      - DJANGO_DEBUG=True
+      - AUTH_TOKEN_TTL=7200
+      - DEVELOPMENT_MODE=True
+      - BYPASS_AUTH=True
+      - CISO_ASSISTANT_SUPERUSER_EMAIL=admin@localhost
+      - DEFAULT_FROM_EMAIL=noreply@localhost
+      - MAIL_DEBUG=True
+    ports:
+      - 8000:8000
+
+  huey:
+    container_name: huey
+    image: ghcr.io/intuitem/ciso-assistant-community/backend:latest
+    pull_policy: always
+    depends_on:
+      backend:
+        condition: service_healthy
+    restart: always
+    environment:
+      - ALLOWED_HOSTS=backend,localhost,127.0.0.1,host.docker.internal
+      - CISO_ASSISTANT_URL=http://localhost:5173
+      - DJANGO_DEBUG=False
+      - AUTH_TOKEN_TTL=7200
+      - DEVELOPMENT_MODE=True
+      - BYPASS_AUTH=True
+    entrypoint:
+      - /bin/sh
+      - -c
+      - |
+        poetry run python manage.py run_huey -w 2 --scheduler-interval 60

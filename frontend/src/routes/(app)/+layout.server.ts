@@ -4,8 +4,20 @@ import { loadFlash } from 'sveltekit-flash-message/server';
 
 const loginPageRegex = /^[a-zA-Z0-9]+:\/\/[^\/]+\/login\/?.*$/;
 
+// Development mode check
+const isDevelopment = process.env.NODE_ENV === 'development' || process.env.BYPASS_AUTH === 'true';
+
 // get `locals.user` and pass it to the `page` store
 export const load = loadFlash(async ({ locals, url, cookies, request }) => {
+	// Development mode: bypass authentication
+	if (isDevelopment) {
+		return { 
+			user: locals.user, 
+			settings: locals.globalSettings, 
+			featureflags: locals.featureFlags 
+		};
+	}
+
 	if (!locals.user && !url.pathname.includes('/login')) {
 		redirect(302, `/login?next=${url.pathname}`);
 	} else {
@@ -20,5 +32,5 @@ export const load = loadFlash(async ({ locals, url, cookies, request }) => {
 			});
 		}
 	}
-	return { user: locals.user, settings: locals.settings, featureflags: locals.featureflags };
+	return { user: locals.user, settings: locals.globalSettings, featureflags: locals.featureFlags };
 }) satisfies LayoutServerLoad;

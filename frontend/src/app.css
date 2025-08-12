@@ -5,9 +5,10 @@
 @import '@skeletonlabs/skeleton/optional/presets';
 
 /*
-  Add your theme import for your theme: "ciso-theme" here
+  Add your theme import for your theme: "cc-theme" here
 */
-@import '../ciso-theme.css';
+@import '../cc-theme.css';
+@import './brand-colors.css';
 @source '../node_modules/@skeletonlabs/skeleton-svelte/dist';
 
 @source './**/*.{html,js,svelte,ts}';
@@ -34,13 +35,13 @@
 }
 
 @utility btn-mini-primary {
-	@apply text-gray-50 bg-violet-600 hover:bg-violet-500;
+	@apply text-white bg-primary-500 hover:bg-primary-400 transition-all duration-300;
 }
 @utility btn-mini-secondary {
-	@apply text-gray-50 bg-pink-500 hover:bg-pink-400;
+	@apply text-white bg-secondary-500 hover:bg-secondary-400 transition-all duration-300;
 }
 @utility btn-mini-tertiary {
-	@apply text-gray-50 bg-sky-500 hover:bg-sky-400;
+	@apply text-white bg-tertiary-500 hover:bg-tertiary-400 transition-all duration-300;
 }
 
 @layer utilities {

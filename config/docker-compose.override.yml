@@ -1,0 +1,35 @@
+# Docker Compose Override for Development with Authentication Bypass
+# This file extends the base docker-compose-barebone.yml with development settings
+
+services:
+  backend:
+    environment:
+      - DJANGO_DEBUG=True
+      - DEVELOPMENT_MODE=True
+      - BYPASS_AUTH=True
+      - ALLOWED_HOSTS=backend,localhost,127.0.0.1,host.docker.internal
+      - CISO_ASSISTANT_SUPERUSER_EMAIL=admin@localhost
+      - DEFAULT_FROM_EMAIL=noreply@localhost
+      - MAIL_DEBUG=True
+    volumes:
+      - ../backend:/code  # Mount local backend code for development
+
+  huey:
+    environment:
+      - DJANGO_DEBUG=False
+      - DEVELOPMENT_MODE=True
+      - BYPASS_AUTH=True
+      - ALLOWED_HOSTS=backend,localhost,127.0.0.1,host.docker.internal
+    volumes:
+      - ../backend:/code  # Mount local backend code for development
+
+  frontend:
+    build:
+      context: ../frontend
+      dockerfile: Dockerfile
+    environment:
+      - BYPASS_AUTH=true
+      - NODE_ENV=development
+    volumes:
+      - ../frontend:/app  # Mount local frontend code for development
+      - /app/node_modules  # Preserve node_modules in container

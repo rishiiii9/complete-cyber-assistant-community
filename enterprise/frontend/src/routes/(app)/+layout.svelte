@@ -105,7 +105,7 @@
 	>
 		{#snippet headline()}
 			<span
-				class="text-2xl font-bold pb-1 bg-linear-to-r from-pink-500 to-violet-600 bg-clip-text text-transparent"
+				class="text-2xl font-bold pb-1 bg-linear-to-r from-emerald-500 to-teal-600 bg-clip-text text-transparent"
 				id="page-title"
 			>
 				{safeTranslate($pageTitle)}
@@ -128,7 +128,7 @@
 	<!-- Router Slot -->
 	<CommandPalette />
 	<main
-		class="min-h-screen p-8 bg-linear-to-br from-violet-100 to-slate-200 transition-all duration-300 {classesSidebarOpen(
+		class="min-h-screen p-8 bg-linear-to-br from-teal-100 to-slate-200 transition-all duration-300 {classesSidebarOpen(
 			sidebarOpen
 		)}"
 	>
