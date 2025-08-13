@@ -1,0 +1,77 @@
+services:
+  backend:
+    image: ghcr.io/complete-cyber/cyber-assistant-backend:latest
+    restart: always
+    environment:
+      - ALLOWED_HOSTS=${ALLOWED_HOSTS}
+      - CISO_ASSISTANT_URL=${CISO_ASSISTANT_URL}
+      - DJANGO_DEBUG=${DJANGO_DEBUG:-False}
+      - AUTH_TOKEN_TTL=${AUTH_TOKEN_TTL:-7200}
+      - POSTGRES_NAME=${POSTGRES_NAME}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - DB_HOST=${DB_HOST}
+      - DB_PORT=${DB_PORT:-5432}
+      - DEFAULT_FROM_EMAIL=${DEFAULT_FROM_EMAIL}
+      - EMAIL_HOST=${EMAIL_HOST}
+      - EMAIL_PORT=${EMAIL_PORT}
+      - EMAIL_HOST_USER=${EMAIL_HOST_USER}
+      - EMAIL_HOST_PASSWORD=${EMAIL_HOST_PASSWORD}
+      - EMAIL_USE_TLS=${EMAIL_USE_TLS}
+      - USE_S3=${USE_S3:-False}
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - AWS_STORAGE_BUCKET_NAME=${AWS_STORAGE_BUCKET_NAME}
+      - AWS_S3_ENDPOINT_URL=${AWS_S3_ENDPOINT_URL}
+    volumes:
+      - app_data:/code/db
+
+  huey:
+    image: ghcr.io/complete-cyber/cyber-assistant-backend:latest
+    depends_on:
+      - backend
+    restart: always
+    environment:
+      - ALLOWED_HOSTS=${ALLOWED_HOSTS}
+      - CISO_ASSISTANT_URL=${CISO_ASSISTANT_URL}
+      - DJANGO_DEBUG=False
+      - AUTH_TOKEN_TTL=${AUTH_TOKEN_TTL:-7200}
+      - POSTGRES_NAME=${POSTGRES_NAME}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - DB_HOST=${DB_HOST}
+      - DB_PORT=${DB_PORT:-5432}
+    volumes:
+      - app_data:/code/db
+    entrypoint:
+      - /bin/sh
+      - -c
+      - |
+        poetry run python manage.py run_huey -w 2 --scheduler-interval 60
+
+  frontend:
+    image: ghcr.io/complete-cyber/cyber-assistant-frontend:latest
+    restart: always
+    environment:
+      - PUBLIC_BACKEND_API_URL=http://backend:8000/api
+      - PUBLIC_BACKEND_API_EXPOSED_URL=${CISO_ASSISTANT_URL}/api
+      - PROTOCOL_HEADER=x-forwarded-proto
+      - HOST_HEADER=x-forwarded-host
+
+  caddy:
+    image: caddy:2.10.0
+    restart: unless-stopped
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - caddy_data:/data
+      - caddy_config:/config
+      - ./Caddyfile.prod:/etc/caddy/Caddyfile:ro
+
+volumes:
+  app_data:
+  caddy_data:
+  caddy_config:
+
+

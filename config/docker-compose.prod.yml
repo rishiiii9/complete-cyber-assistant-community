@@ -1,0 +1,132 @@
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: db
+    restart: always
+    environment:
+      - POSTGRES_DB=${POSTGRES_NAME}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+
+  backend:
+    image: ghcr.io/complete-cyber/cyber-assistant-backend:latest
+    container_name: backend
+    pull_policy: always
+    restart: always
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      - ALLOWED_HOSTS=${ALLOWED_HOSTS}
+      - CISO_ASSISTANT_URL=${CISO_ASSISTANT_URL}
+      - DJANGO_DEBUG=${DJANGO_DEBUG:-False}
+      - AUTH_TOKEN_TTL=${AUTH_TOKEN_TTL:-7200}
+      # Database (PostgreSQL)
+      - POSTGRES_NAME=${POSTGRES_NAME}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - DB_HOST=${DB_HOST:-db}
+      - DB_PORT=${DB_PORT:-5432}
+      # Email (optional but recommended)
+      - DEFAULT_FROM_EMAIL=${DEFAULT_FROM_EMAIL}
+      - EMAIL_HOST=${EMAIL_HOST}
+      - EMAIL_PORT=${EMAIL_PORT}
+      - EMAIL_HOST_USER=${EMAIL_HOST_USER}
+      - EMAIL_HOST_PASSWORD=${EMAIL_HOST_PASSWORD}
+      - EMAIL_USE_TLS=${EMAIL_USE_TLS}
+      # S3 storage (optional)
+      - USE_S3=${USE_S3:-False}
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - AWS_STORAGE_BUCKET_NAME=${AWS_STORAGE_BUCKET_NAME}
+      - AWS_S3_ENDPOINT_URL=${AWS_S3_ENDPOINT_URL}
+    volumes:
+      - app_data:/code/db
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://backend:8000/api/build || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 20
+      start_period: 100s
+
+  huey:
+    image: ghcr.io/complete-cyber/cyber-assistant-backend:latest
+    container_name: huey
+    pull_policy: always
+    depends_on:
+      backend:
+        condition: service_healthy
+    restart: always
+    environment:
+      - ALLOWED_HOSTS=${ALLOWED_HOSTS}
+      - CISO_ASSISTANT_URL=${CISO_ASSISTANT_URL}
+      - DJANGO_DEBUG=False
+      - AUTH_TOKEN_TTL=${AUTH_TOKEN_TTL:-7200}
+      # Same DB/Email/S3 envs as backend if needed by tasks
+      - POSTGRES_NAME=${POSTGRES_NAME}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - DB_HOST=${DB_HOST:-db}
+      - DB_PORT=${DB_PORT:-5432}
+      - DEFAULT_FROM_EMAIL=${DEFAULT_FROM_EMAIL}
+      - EMAIL_HOST=${EMAIL_HOST}
+      - EMAIL_PORT=${EMAIL_PORT}
+      - EMAIL_HOST_USER=${EMAIL_HOST_USER}
+      - EMAIL_HOST_PASSWORD=${EMAIL_HOST_PASSWORD}
+      - EMAIL_USE_TLS=${EMAIL_USE_TLS}
+      - USE_S3=${USE_S3:-False}
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - AWS_STORAGE_BUCKET_NAME=${AWS_STORAGE_BUCKET_NAME}
+      - AWS_S3_ENDPOINT_URL=${AWS_S3_ENDPOINT_URL}
+    volumes:
+      - app_data:/code/db
+    entrypoint:
+      - /bin/sh
+      - -c
+      - |
+        poetry run python manage.py run_huey -w 2 --scheduler-interval 60
+
+  frontend:
+    image: ghcr.io/complete-cyber/cyber-assistant-frontend:latest
+    container_name: frontend
+    pull_policy: always
+    restart: always
+    depends_on:
+      backend:
+        condition: service_healthy
+    environment:
+      - PUBLIC_BACKEND_API_URL=http://backend:8000/api
+      - PUBLIC_BACKEND_API_EXPOSED_URL=${CISO_ASSISTANT_URL}/api
+      - PROTOCOL_HEADER=x-forwarded-proto
+      - HOST_HEADER=x-forwarded-host
+
+  caddy:
+    image: caddy:2.10.0
+    container_name: caddy
+    restart: unless-stopped
+    depends_on:
+      backend:
+        condition: service_healthy
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - caddy_data:/data
+      - caddy_config:/config
+      - ./Caddyfile.prod:/etc/caddy/Caddyfile:ro
+
+volumes:
+  pg_data:
+  app_data:
+  caddy_data:
+  caddy_config:
+
+
