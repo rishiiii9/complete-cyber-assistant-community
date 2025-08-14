@@ -21,7 +21,7 @@ This deployment uses Docker Compose to run the CISO Assistant application with l
 ### Frontend (SvelteKit)
 - **Service**: `frontend`
 - **Build**: Local build from `./frontend/Dockerfile`
-- **Port**: 3000 (mapped from container port 8080)
+- **Port**: 4000 (mapped from container port 8080)
 - **Dependencies**: Backend service
 
 ### Background Tasks (Huey)
@@ -63,7 +63,7 @@ The following environment variables can be customized:
 - `POSTGRES_PASSWORD`: Database password (default: ciso_assistant)
 
 ## Access
-- **Frontend**: http://localhost:3000
+- **Frontend**: http://localhost:4000
 - **Backend API**: http://localhost:8000/api
 
 ## Troubleshooting
@@ -80,11 +80,11 @@ If you encounter build issues:
 - Verify database volume permissions
 
 ### Port Conflicts
-If ports 8000 or 3000 are already in use, modify the port mappings in the compose file:
+If ports 8000 or 4000 are already in use, modify the port mappings in the compose file:
 ```yaml
 ports:
   - "8001:8000"  # Map host port 8001 to container port 8000
-  - "3001:8080"  # Map host port 3001 to container port 8080
+  - "4001:8080"  # Map host port 4001 to container port 8080
 ```
 
 ## Data Persistence
