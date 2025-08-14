@@ -37,10 +37,10 @@ COPY --from=build /app/frontend/build ./build
 COPY --from=build /app/frontend/server ./server
 
 ENV NODE_ENV=production \
-    PORT=3000 \
+    PORT=8080 \
     HOST=0.0.0.0
 
-EXPOSE 3000
+EXPOSE 8080
 
 CMD ["node", "server/index.js"]
 

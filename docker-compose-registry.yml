@@ -1,0 +1,74 @@
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: ciso_assistant
+      POSTGRES_USER: ciso_assistant
+      POSTGRES_PASSWORD: ciso_assistant
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ciso_assistant"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  backend:
+    image: ghcr.io/rishiiii9/complete-cyber-backend:latest
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DJANGO_SETTINGS_MODULE: ciso_assistant.settings
+      DJANGO_DEBUG: "False"
+      ALLOWED_HOSTS: "*"
+      CISO_ASSISTANT_URL: http://localhost:3000
+      POSTGRES_NAME: ciso_assistant
+      POSTGRES_USER: ciso_assistant
+      POSTGRES_PASSWORD: ciso_assistant
+      DB_HOST: db
+      DB_PORT: 5432
+      # Optional: create an admin on first boot
+      # DJANGO_SUPERUSER_EMAIL: admin@example.com
+      # DJANGO_SUPERUSER_PASSWORD: change-me
+    ports:
+      - "8000:8000"
+    volumes:
+      - backend_data:/app/backend/db
+
+  frontend:
+    image: ghcr.io/rishiiii9/complete-cyber-frontend:latest
+    environment:
+      NODE_ENV: production
+      PUBLIC_BACKEND_API_URL: http://backend:8000/api
+      PORT: 3000
+      HOST: 0.0.0.0
+    depends_on:
+      - backend
+    ports:
+      - "3000:3000"
+
+  huey:
+    image: ghcr.io/rishiiii9/complete-cyber-backend:latest
+    command: bash -lc "poetry run python manage.py run_huey -w 2 -k process"
+    environment:
+      DJANGO_SETTINGS_MODULE: ciso_assistant.settings
+      DJANGO_DEBUG: "False"
+      ALLOWED_HOSTS: "*"
+      CISO_ASSISTANT_URL: http://localhost:3000
+      POSTGRES_NAME: ciso_assistant
+      POSTGRES_USER: ciso_assistant
+      POSTGRES_PASSWORD: ciso_assistant
+      DB_HOST: db
+      DB_PORT: 5432
+    depends_on:
+      db:
+        condition: service_healthy
+      backend:
+        condition: service_started
+    volumes:
+      - backend_data:/app/backend/db
+
+volumes:
+  db_data:
+  backend_data:
