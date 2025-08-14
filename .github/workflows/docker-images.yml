@@ -17,8 +17,8 @@ jobs:
       packages: write
     env:
       REGISTRY: ghcr.io
-      IMAGE_BACKEND: ghcr.io/complete-cyber/cyber-assistant-backend
-      IMAGE_FRONTEND: ghcr.io/complete-cyber/cyber-assistant-frontend
+      IMAGE_BACKEND: ghcr.io/rishiiii9/complete-cyber-assistant-backend
+      IMAGE_FRONTEND: ghcr.io/rishiiii9/complete-cyber-assistant-frontend
     steps:
       - name: Checkout
         uses: actions/checkout@v4
