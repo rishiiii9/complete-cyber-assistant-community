@@ -24,7 +24,7 @@ services:
       DJANGO_SETTINGS_MODULE: ciso_assistant.settings
       DJANGO_DEBUG: "False"
       ALLOWED_HOSTS: "*"
-      CISO_ASSISTANT_URL: http://localhost:8080
+      CISO_ASSISTANT_URL: http://localhost:3000
       POSTGRES_NAME: ciso_assistant
       POSTGRES_USER: ciso_assistant
       POSTGRES_PASSWORD: ciso_assistant
@@ -50,7 +50,7 @@ services:
     depends_on:
       - backend
     ports:
-      - "8080:8080"
+      - "3000:8080"
 
   huey:
     build:
@@ -61,7 +61,7 @@ services:
       DJANGO_SETTINGS_MODULE: ciso_assistant.settings
       DJANGO_DEBUG: "False"
       ALLOWED_HOSTS: "*"
-      CISO_ASSISTANT_URL: http://localhost:8080
+      CISO_ASSISTANT_URL: http://localhost:3000
       POSTGRES_NAME: ciso_assistant
       POSTGRES_USER: ciso_assistant
       POSTGRES_PASSWORD: ciso_assistant
