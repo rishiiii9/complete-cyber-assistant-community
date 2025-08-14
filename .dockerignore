@@ -7,3 +7,21 @@
 venv/
 env/
 **/node_modules/
+**/.pnpm-store/
+**/.svelte-kit/
+**/build/
+**/.vite/
+
+.python-version
+**/__pycache__/
+
+# Local data
+**/db/*.sqlite3
+**/db/attachments/
+**/db/django_secret_key
+**/.env
+**/.env.*
+
+# Test outputs
+**/tests/results/
+**/tests/reports/
