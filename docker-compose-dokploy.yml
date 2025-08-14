@@ -24,7 +24,7 @@ services:
       DJANGO_SETTINGS_MODULE: ciso_assistant.settings
       DJANGO_DEBUG: "False"
       ALLOWED_HOSTS: "*"
-      CISO_ASSISTANT_URL: https://ccyber.traefik.me:4000
+      CISO_ASSISTANT_URL: https://ccyber.traefik.me
       POSTGRES_NAME: ciso_assistant
       POSTGRES_USER: ciso_assistant
       POSTGRES_PASSWORD: ciso_assistant
@@ -71,7 +71,7 @@ services:
       DJANGO_SETTINGS_MODULE: ciso_assistant.settings
       DJANGO_DEBUG: "False"
       ALLOWED_HOSTS: "*"
-      CISO_ASSISTANT_URL: https://ccyber.traefik.me:4000
+      CISO_ASSISTANT_URL: https://ccyber.traefik.me
       POSTGRES_NAME: ciso_assistant
       POSTGRES_USER: ciso_assistant
       POSTGRES_PASSWORD: ciso_assistant
