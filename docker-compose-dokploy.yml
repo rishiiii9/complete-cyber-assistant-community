@@ -24,7 +24,7 @@ services:
       DJANGO_SETTINGS_MODULE: ciso_assistant.settings
       DJANGO_DEBUG: "False"
       ALLOWED_HOSTS: "*"
-      CISO_ASSISTANT_URL: http://localhost:4000
+      CISO_ASSISTANT_URL: https://ccyber.traefik.me:4000
       POSTGRES_NAME: ciso_assistant
       POSTGRES_USER: ciso_assistant
       POSTGRES_PASSWORD: ciso_assistant
@@ -35,6 +35,8 @@ services:
       # DJANGO_SUPERUSER_PASSWORD: change-me
     ports:
       - "8000:8000"
+    networks:
+      - my_network
     volumes:
       - backend_data:/app/backend/db
 
@@ -51,6 +53,8 @@ services:
       - backend
     ports:
       - "4000:8080"
+    networks:
+      - my_network
 
   huey:
     build:
@@ -61,7 +65,7 @@ services:
       DJANGO_SETTINGS_MODULE: ciso_assistant.settings
       DJANGO_DEBUG: "False"
       ALLOWED_HOSTS: "*"
-      CISO_ASSISTANT_URL: http://localhost:4000
+      CISO_ASSISTANT_URL: https://ccyber.traefik.me:4000
       POSTGRES_NAME: ciso_assistant
       POSTGRES_USER: ciso_assistant
       POSTGRES_PASSWORD: ciso_assistant
@@ -74,6 +78,8 @@ services:
         condition: service_started
     volumes:
       - backend_data:/app/backend/db
+    networks:
+      - my_network
 
 volumes:
   db_data:
