@@ -20,6 +20,12 @@ services:
     depends_on:
       db:
         condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
     environment:
       DJANGO_SETTINGS_MODULE: ciso_assistant.settings
       DJANGO_DEBUG: "False"
@@ -50,17 +56,24 @@ services:
       PORT: 8080
       HOST: 0.0.0.0
     depends_on:
-      - backend
+      backend:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
     ports:
       - "4000:8080"
     networks:
       - dokploy-network
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.<unique-name>.rule=Host(`ccyber.traefik.me`)"
-      - "traefik.http.routers.<unique-name>.entrypoints=websecure"
-      - "traefik.http.routers.<unique-name>.tls.certResolver=letsencrypt"
-      - "traefik.http.services.<unique-name>.loadbalancer.server.port=4000"
+      - "traefik.http.routers.ccyber-frontend.rule=Host(`ccyber.traefik.me`)"
+      - "traefik.http.routers.ccyber-frontend.entrypoints=websecure"
+      - "traefik.http.routers.ccyber-frontend.tls.certResolver=letsencrypt"
+      - "traefik.http.services.ccyber-frontend.loadbalancer.server.port=8080"
 
   huey:
     build:
