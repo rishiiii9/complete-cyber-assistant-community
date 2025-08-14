@@ -36,7 +36,7 @@ services:
     ports:
       - "8000:8000"
     networks:
-      - my_network
+      - dokploy-network
     volumes:
       - backend_data:/app/backend/db
 
@@ -54,7 +54,13 @@ services:
     ports:
       - "4000:8080"
     networks:
-      - my_network
+      - dokploy-network
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.<unique-name>.rule=Host(`ccyber.traefik.me`)"
+      - "traefik.http.routers.<unique-name>.entrypoints=websecure"
+      - "traefik.http.routers.<unique-name>.tls.certResolver=letsencrypt"
+      - "traefik.http.services.<unique-name>.loadbalancer.server.port=4000"
 
   huey:
     build:
@@ -79,8 +85,10 @@ services:
     volumes:
       - backend_data:/app/backend/db
     networks:
-      - my_network
-
+      - dokploy-network
+networks:
+  dokploy-network:
+    external: true
 volumes:
   db_data:
   backend_data:
