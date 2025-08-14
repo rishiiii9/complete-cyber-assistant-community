@@ -14,7 +14,9 @@ services:
       retries: 10
 
   backend:
-    image: ghcr.io/rishiiii9/complete-cyber-backend:latest
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
     depends_on:
       db:
         condition: service_healthy
@@ -37,7 +39,9 @@ services:
       - backend_data:/app/backend/db
 
   frontend:
-    image: ghcr.io/rishiiii9/complete-cyber-frontend:latest
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
     environment:
       NODE_ENV: production
       PUBLIC_BACKEND_API_URL: http://backend:8000/api
@@ -49,7 +53,9 @@ services:
       - "8080:8080"
 
   huey:
-    image: ghcr.io/rishiiii9/complete-cyber-backend:latest
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
     command: bash -lc "poetry run python manage.py run_huey -w 2 -k process"
     environment:
       DJANGO_SETTINGS_MODULE: ciso_assistant.settings
