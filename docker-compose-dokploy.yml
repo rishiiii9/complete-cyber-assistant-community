@@ -59,7 +59,7 @@ services:
       - dokploy-network
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.ccyber-frontend.rule=Host(`ccyber.traefik.me`)"
+      - "traefik.http.routers.ccyber-frontend.rule=Host(`grc-client1.completecyber.uk`)"
       - "traefik.http.routers.ccyber-frontend.entrypoints=websecure"
       - "traefik.http.routers.ccyber-frontend.tls.certResolver=letsencrypt"
       - "traefik.http.services.ccyber-frontend.loadbalancer.server.port=8080"
