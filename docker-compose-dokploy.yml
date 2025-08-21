@@ -12,7 +12,7 @@ services:
       interval: 10s
       timeout: 5s
       retries: 10
-      networks:
+    networks:
       - dokploy-network
 
   backend:
@@ -98,7 +98,7 @@ services:
 
 networks:
   dokploy-network:
-    external: true
+    driver: bridge
 
 volumes:
   db_data:
