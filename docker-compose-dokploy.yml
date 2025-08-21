@@ -12,6 +12,8 @@ services:
       interval: 10s
       timeout: 5s
       retries: 10
+    networks:
+      - dokploy-network
 
   backend:
     build:
@@ -23,7 +25,7 @@ services:
     environment:
       DJANGO_SETTINGS_MODULE: ciso_assistant.settings
       DJANGO_DEBUG: "False"
-      ALLOWED_HOSTS: "grc-client1.completecyber.uk,*.dokploy.com"
+      ALLOWED_HOSTS: "*"
       CISO_ASSISTANT_URL: https://grc-client1.completecyber.uk
       POSTGRES_NAME: ciso_assistant
       POSTGRES_USER: ciso_assistant
@@ -42,6 +44,8 @@ services:
       # DJANGO_SUPERUSER_PASSWORD: change-me
     ports:
       - "8000:8000"
+    networks:
+      - dokploy-network
     volumes:
       - backend_data:/app/backend/db
 
@@ -58,6 +62,8 @@ services:
       - backend
     # ports:
     #   - "3000:8080"
+    networks:
+      - dokploy-network
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.ccyber-frontend.rule=Host(`grc-client1.completecyber.uk`)"
@@ -73,7 +79,7 @@ services:
     environment:
       DJANGO_SETTINGS_MODULE: ciso_assistant.settings
       DJANGO_DEBUG: "False"
-      ALLOWED_HOSTS: "grc-client1.completecyber.uk,*.dokploy.com"
+      ALLOWED_HOSTS: "*"
       CISO_ASSISTANT_URL: https://grc-client1.completecyber.uk
       POSTGRES_NAME: ciso_assistant
       POSTGRES_USER: ciso_assistant
@@ -87,7 +93,11 @@ services:
         condition: service_started
     volumes:
       - backend_data:/app/backend/db
-
+    networks:
+      - dokploy-network
+networks:
+  dokploy-network:
+    external: true
 volumes:
   db_data:
   backend_data:
