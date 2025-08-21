@@ -12,6 +12,8 @@ services:
       interval: 10s
       timeout: 5s
       retries: 10
+      networks:
+      - dokploy-network
 
   backend:
     build:
@@ -44,6 +46,8 @@ services:
       - "8000:8000"
     volumes:
       - backend_data:/app/backend/db
+    networks:
+      - dokploy-network
 
   frontend:
     build:
@@ -58,14 +62,14 @@ services:
       - backend
     # ports:
     #   - "3000:8080"
-    # networks:
-    #   - dokploy-network
-    # labels:
-    #   - "traefik.enable=true"
-    #   - "traefik.http.routers.ccyber-frontend.rule=Host(`grc-client1.completecyber.uk`)"
-    #   - "traefik.http.routers.ccyber-frontend.entrypoints=websecure"
-    #   - "traefik.http.routers.ccyber-frontend.tls.certResolver=letsencrypt"
-    #   - "traefik.http.services.ccyber-frontend.loadbalancer.server.port=8080"
+    networks:
+      - dokploy-network
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.ccyber-frontend.rule=Host(`grc-client1.completecyber.uk`)"
+      - "traefik.http.routers.ccyber-frontend.entrypoints=websecure"
+      - "traefik.http.routers.ccyber-frontend.tls.certResolver=letsencrypt"
+      - "traefik.http.services.ccyber-frontend.loadbalancer.server.port=8080"
 
   huey:
     build:
@@ -89,6 +93,12 @@ services:
         condition: service_started
     volumes:
       - backend_data:/app/backend/db
+    networks:
+      - dokploy-network
+
+networks:
+  dokploy-network:
+    external: true
 
 volumes:
   db_data:
